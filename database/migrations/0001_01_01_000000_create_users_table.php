@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // 1. የተጠቃሚዎች ቴብል
+        // ስሙን ከ 'juices' ወደ 'users' ቀይረው
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -19,21 +19,20 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
-            // የአድሚን ምልክት እዚህ ጋር ተጨምሯል
+            // አድሚን መለያ እዚህ ጋር መኖሩን አረጋግጥ
             $table->boolean('is_admin')->default(false);
 
             $table->rememberToken();
             $table->timestamps();
         });
 
-        // 2. የፓስወርድ መቀየሪያ ቴብል (ለBreeze አስፈላጊ ነው)
+        // እነዚህም እዚህ ፋይል ውስጥ መኖር አለባቸው (ለBreeze አስፈላጊ ናቸው)
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
 
-        // 3. የሴሽን ቴብል (ቅድም የጠፋብህ ቴብል እዚህ ነው የሚፈጠረው)
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();

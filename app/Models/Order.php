@@ -6,8 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    // branch_id እዚህ ጋር መኖሩን አረጋግጥ
-    protected $fillable = ['user_id', 'juice_id', 'branch_id', 'quantity','order_type', 'phone', 'address', 'status'];
+    // ለአዲሱ የክፍያ ሲስተም 'payment_method' እና 'payment_status' እዚህ ጋር ተጨምረዋል
+    protected $fillable = [
+        'user_id',
+        'juice_id',
+        'branch_id',
+        'quantity',
+        'order_type',
+        'phone',
+        'address',
+        'status',
+        'payment_method',
+        'payment_status'
+    ];
 
     public function user() {
         return $this->belongsTo(User::class);
@@ -17,7 +28,6 @@ class Order extends Model
         return $this->belongsTo(Juice::class);
     }
 
-    // አዲሱ ግንኙነት፡ ትዕዛዙ የየትኛው ቅርንጫፍ እንደሆነ ለማወቅ
     public function branch() {
         return $this->belongsTo(Branch::class);
     }

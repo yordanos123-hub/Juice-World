@@ -5,109 +5,125 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use App\Models\Juice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class JuiceController extends Controller
 {
-    // ሁሉንም ቅርንጫፎች ለማሳየት
+
+
     public function index()
     {
-        $allBranches = \App\Models\Branch::all();
-
-        // ጁሶቹን በምድብ ከፋፍለን ለገጹ እንሰጣለን
-        $juicesByCategory = \App\Models\Juice::all()->groupBy('category');
+        $allBranches = Branch::all();
+        $juicesByCategory = Juice::all()->groupBy('category');
 
         return view('welcome', compact('allBranches', 'juicesByCategory'));
     }
 
-    // የአንድን ቅርንጫፍ ሜኑ ለማሳየት
+    /**
+     * ቅርንጫፍ ገጽ - የአንድን ቅርንጫፍ ሜኑ በምድብ ያሳያል
+     */
     public function show($id)
     {
-        // ቅርንጫፉን ከነ ጁሶቹ ፈልግ
+        // 1. ቅርንጫፉን ከነ ጁሶቹ ፈልግ
         $branch = \App\Models\Branch::with('juices')->findOrFail($id);
 
-        return view('branch-menu', [
-            'branch' => $branch,
-            'juices' => $branch->juices // አሁን የሚመጡት የዚህ ቅርንጫፍ ጁሶች ብቻ ናቸው
-        ]);
+        // 2. ጁሶቹን በምድብ ከፋፍላቸው
+        $juicesByCategory = $branch->juices->groupBy('category');
+
+        return view('branch-menu', compact('branch', 'juicesByCategory'));
     }
-    // ፎርሙን የሚያሳይ ክፍል
+    /**
+     * አዲስ ጁስ መመዝገቢያ ፎርም (Admin)
+     */
     public function create()
     {
-        $branches = \App\Models\Branch::all(); // ጁሱን ከቅርንጫፍ ጋር ለማያያዝ ቅርንጫፎቹን እናምጣ
+        $branches = Branch::all();
         return view('juices.create', compact('branches'));
     }
 
-// ዳታውን ዳታቤዝ ውስጥ የሚጨምር ክፍል
+    /**
+     * አዲስ ጁስ ዳታቤዝ ውስጥ መመዝገብ (ፎቶን ጨምሮ)
+     */
     public function store(Request $request)
     {
-        // 1. ዳታው መሞላቱን አረጋግጥ (Validation)
         $request->validate([
             'name' => 'required|unique:juices,name',
             'price' => 'required|numeric',
             'description' => 'required',
-            'branch_id' => 'required'
+            'category' => 'required',
+            'branch_id' => 'required',
+            'image' => 'nullable|image|max:2048'
         ]);
 
-        // 2. ጁሱን ፍጠር
-        $juice = \App\Models\Juice::create([
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('juices', 'public');
+        }
+
+        $juice = Juice::create([
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description,
+            'category' => $request->category,
+            'image' => $imagePath,
         ]);
 
-        // 3. ጁሱን ከተመረጠው ቅርንጫፍ ጋር አያይዝ (Attach to Branch)
         $juice->branches()->attach($request->branch_id);
 
-        // 4. ወደ መነሻ ገጽ ተመለስ
         return redirect('/')->with('success', 'አዲስ ጁስ በትክክል ተመዝግቧል!');
     }
 
-    public function destroy($id)
-    {
-        $juice = \App\Models\Juice::findOrFail($id);
-        $juice->delete(); // ከዳታቤዝ ያጠፋዋል
-
-        return back()->with('success', 'ጁሱ በትክክል ጠፍቷል!');
-    }
-
-    // 1. የማስተካከያ ገጹን ዳታ ይዞ የሚከፍት
+    /**
+     * ጁስ ማስተካከያ ገጽ
+     */
     public function edit($id)
     {
-        $juice = \App\Models\Juice::findOrFail($id);
+        $juice = Juice::findOrFail($id);
         return view('juices.edit', compact('juice'));
     }
 
-// 2. የተስተካከለውን ዳታ ዳታቤዝ ውስጥ የሚቀይር
+    /**
+     * የተስተካከለ መረጃን ዳታቤዝ ውስጥ መቀየር
+     */
     public function update(Request $request, $id)
     {
-        $juice = \App\Models\Juice::findOrFail($id);
+        $juice = Juice::findOrFail($id);
 
         $request->validate([
             'name' => 'required',
             'price' => 'required|numeric',
-            'description' => 'required'
+            'description' => 'required',
+            'image' => 'nullable|image|max:2048'
         ]);
 
-        $juice->update([
-            'name' => $request->name,
-            'price' => $request->price,
-            'description' => $request->description,
-        ]);
+        if ($request->hasFile('image')) {
+            // አሮጌውን ፎቶ ያጠፋዋል
+            if ($juice->image) { Storage::disk('public')->delete($juice->image); }
+            $juice->image = $request->file('image')->store('juices', 'public');
+        }
+
+        $juice->update($request->only('name', 'price', 'description'));
 
         return redirect('/')->with('success', 'መረጃው በትክክል ተስተካክሏል!');
     }
 
-
-    public function menu()
+    /**
+     * ጁስ ማጥፊያ
+     */
+    public function destroy($id)
     {
-        // ሁሉንም ጁሶች አምጣ
-        $juices = \App\Models\Juice::all();
+        $juice = Juice::findOrFail($id);
+        if ($juice->image) { Storage::disk('public')->delete($juice->image); }
+        $juice->delete();
 
-        // በምድብ ከፋፍላቸው (ካሪጎሪ ከሌለህ 'Classic' በሚል ግሩፕ ያደርጋቸዋል)
-        $juicesByCategory = $juices->groupBy(function ($item) {
-            return $item->category ?? 'Our Special Juices';
-        });
+        return back()->with('success', 'ጁሱ በትክክል ጠፍቷል!');
+    }
 
-        return view('menu', compact('juicesByCategory'));
+    /**
+     * ስለ እኛ ገጽ
+     */
+    public function about()
+    {
+        return view('about');
     }
 }

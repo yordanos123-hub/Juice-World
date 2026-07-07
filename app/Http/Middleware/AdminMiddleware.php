@@ -1,8 +1,8 @@
 <?php
 
-namespaceJuice WorldApp\Http\Middleware;
+namespace App\Http\Middleware;
 
-useJuice WorldClosure;
+use Closure; // ይህ በትክክል እንዲህ መሆን አለበት
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

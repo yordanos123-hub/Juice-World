@@ -4,13 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Juice extends Model
-{
-    protected $fillable = ['name', 'description', 'price', 'image_url'];
+class Juice extends Model {
+    protected $fillable = ['name', 'category', 'price', 'description', 'image'];
 
-    public function branches()
-    {
-        // "አንድ ጁስ በብዙ ቅርንጫፎች ሊኖር ይችላል" ማለት ነው
+    public function branches() {
         return $this->belongsToMany(Branch::class);
     }
 }

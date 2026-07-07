@@ -11,53 +11,51 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. ለአድሚኑ አካውንት መፍጠር (is_admin => true ነው)
-        User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@juice.com',
-            'password' => bcrypt('password123'),
-            'is_admin' => true,
-        ]);
+        // 1. ተጠቃሚዎች
+        $admin = \App\Models\User::create(['name' => 'Admin', 'email' => 'admin@juice.com', 'password' => bcrypt('password123'), 'is_admin' => true]);
 
-        // 2. ለተራ ዩዘር አካውንት መፍጠር (is_admin => false ነው)
-        User::create([
-            'name' => 'Normal Customer',
-            'email' => 'user@gmail.com',
-            'password' => bcrypt('password123'),
-            'is_admin' => false,
-        ]);
-
-        // 3. ቅርንጫፎችን መፍጠር (የድሮ ኮድህ)
+        // 2. ቅርንጫፎች
+        // 1. የእሸት ቅርንጫፍ
         $eshet = Branch::create([
             'name' => 'Eshet Branch',
-            'location' => 'Eshet',
-            'phone' => '0911-111111'
+            'location' => 'እሸት',
+            'phone' => '09-11-04-00-55'
         ]);
+
+// 2. የመስቀለኛ ቅርንጫፍ
         $meskel = Branch::create([
             'name' => 'Meskelegna Branch',
-            'location' => 'Meskelegna',
-            'phone' => '0922-222222'
+            'location' => 'መስቀለኛ',
+            'phone' => '09-22-22-22-22'
         ]);
+        // 3. የጁስ ዝርዝር (16 አይነቶች)
+        $juiceData = [
+            ['name'=>'Avocado','category'=>'Juice','price'=>150], ['name'=>'Papaya','category'=>'Juice','price'=>150],
+            ['name'=>'Spris','category'=>'Juice','price'=>150], ['name'=>'Ambasha','category'=>'Juice','price'=>150],
+            ['name'=>'Zaytun','category'=>'Juice','price'=>150], ['name'=>'Strawberry','category'=>'Juice','price'=>180],
+            ['name'=>'Mango','category'=>'Juice','price'=>200], ['name'=>'Spris with Mango','category'=>'Juice','price'=>170],
+            ['name'=>'Pineapple','category'=>'Juice','price'=>180], ['name'=>'Watermelon','category'=>'Juice','price'=>160],
+            ['name'=>'Apple','category'=>'Juice','price'=>240], ['name'=>'Orange','category'=>'Juice','price'=>180],
+            ['name'=>'Lemon','category'=>'Juice','price'=>150], ['name'=>'Juice World Special','category'=>'Juice','price'=>220],
+            ['name'=>'Fruit Punch Big','category'=>'Juice','price'=>230], ['name'=>'Fruit Punch Small','category'=>'Juice','price'=>180],
+        ];
 
-        // 4. ጁሶችን መፍጠር (የድሮ ኮድህ)
-        $avocado = Juice::create([
-            'name' => 'Avocado Juice',
-            'description' => 'Fresh avocado with milk',
-            'price' => 120
-        ]);
-        $mango = Juice::create([
-            'name' => 'Mango Juice',
-            'description' => 'Sweet organic mango',
-            'price' => 100
-        ]);
-        $papaya = Juice::create([
-            'name' => 'Papaya Juice',
-            'description' => 'Fresh papaya juice',
-            'price' => 90
-        ]);
+        // 4. የሚልክሼክ ዝርዝር (11 አይነቶች)
+        $shakeData = [
+            ['name'=>'Avocado Shake','category'=>'Milkshake','price'=>200], ['name'=>'Papaya Shake','category'=>'Milkshake','price'=>200],
+            ['name'=>'Zaytun Shake','category'=>'Milkshake','price'=>200], ['name'=>'Ambasha Shake','category'=>'Milkshake','price'=>200],
+            ['name'=>'Watermelon Shake','category'=>'Milkshake','price'=>210], ['name'=>'Banana Shake','category'=>'Milkshake','price'=>200],
+            ['name'=>'Mango Shake','category'=>'Milkshake','price'=>250], ['name'=>'Chocolate Shake','category'=>'Milkshake','price'=>220],
+            ['name'=>'Date Shake','category'=>'Milkshake','price'=>250], ['name'=>'Strawberry Shake','category'=>'Milkshake','price'=>250],
+            ['name'=>'Vanilla Shake','category'=>'Milkshake','price'=>200],
+        ];
 
-        // 5. ጁሶችን ከቅርንጫፎች ጋር ማገናኘት (የድሮ ኮድህ)
-        $eshet->juices()->attach([$avocado->id, $mango->id, $papaya->id]);
-        $meskel->juices()->attach([$avocado->id, $mango->id]);
+        // ዳታቤዝ ውስጥ አስገባቸው እና ከቅርንጫፍ ጋር አያይዛቸው
+        foreach (array_merge($juiceData, $shakeData) as $item) {
+            $juice = \App\Models\Juice::create($item);
+            // ሁለቱም ቅርንጫፎች ላይ እንዲኖሩ አድርገናቸዋል
+            $eshet->juices()->attach($juice->id);
+            $meskel->juices()->attach($juice->id);
+        }
     }
 }
