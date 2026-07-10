@@ -122,80 +122,69 @@
 </section>
 
 
-<!-- MENU SECTION (Juice World Professional Design) -->
-<section
-    id="menu"
-    class="bg-[#FFF8F1] py-24 rounded-[60px] mx-4 md:mx-10 mb-10 shadow-sm border border-orange-50"
->
+<!-- MENU SECTION (Juice World Final Version) -->
+<section id="menu" class="bg-[#FFF8F1] py-24 rounded-[60px] mx-4 md:mx-10 mb-10 shadow-sm border border-orange-50">
     <div class="max-w-7xl mx-auto px-6 md:px-12">
 
-        <!-- 1. Centered Header -->
+        <!-- Header -->
         <div class="max-w-3xl mx-auto text-center mb-16">
             <h2 class="text-5xl md:text-7xl font-black text-[#8C2F00] leading-tight tracking-tighter uppercase">
                 Our <span class="text-[#FF6B00]">Menu</span>
             </h2>
             <p class="mt-4 text-gray-500 text-sm md:text-base font-medium italic">
-                ትኩስ እና ተፈጥሯዊ ፍራፍሬዎች ለጤናዎ። <br>
-                እውነተኛ ጣዕም በ Juice World!
+                ትኩስ እና ተፈጥሯዊ ፍራፍሬዎች ለጤናዎ። <br> እውነተኛ ጣዕም በ Juice World!
             </p>
         </div>
 
-        <!-- 2. Category Tabs (Vanilla JS Powered) -->
-        <div class="flex flex-wrap justify-center gap-3 mb-20" id="category-buttons">
-            <button onclick="filterMenu('all', this)" class="menu-tab-btn active-tab px-10 py-3.5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all duration-300">
-                All Drinks
-            </button>
-            <button onclick="filterMenu('juice', this)" class="menu-tab-btn bg-white text-[#8C2F00] border border-orange-100 px-10 py-3.5 rounded-full text-[11px] font-black uppercase tracking-widest hover:bg-orange-50 transition-all duration-300">
-                Juices (ጁስ)
-            </button>
-            <button onclick="filterMenu('shake', this)" class="menu-tab-btn bg-white text-[#8C2F00] border border-orange-100 px-10 py-3.5 rounded-full text-[11px] font-black uppercase tracking-widest hover:bg-orange-50 transition-all duration-300">
-                Milkshakes (ሚልክ ሼክ)
-            </button>
+        <!-- Category Tabs -->
+        <div class="flex flex-wrap justify-center gap-3 mb-20">
+            <button onclick="filterMenu('all', this)" class="menu-tab-btn active-tab px-10 py-3.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all">All Drinks</button>
+            <button onclick="filterMenu('juice', this)" class="menu-tab-btn bg-white text-[#8C2F00] border border-orange-100 px-10 py-3.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-orange-50 transition-all">Juices</button>
+            <button onclick="filterMenu('shake', this)" class="menu-tab-btn bg-white text-[#8C2F00] border border-orange-100 px-10 py-3.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-orange-50 transition-all">Milkshakes</button>
         </div>
 
         {{-- ========================= JUICES SECTION ========================= --}}
         <div id="juice-section" class="mb-24">
-            <div class="flex justify-between items-center mb-10 border-b border-orange-100 pb-4">
-                <h3 class="text-2xl font-black text-[#8C2F00] flex items-center gap-3">
-                    <span class="w-2 h-8 bg-[#FF6B00] rounded-full"></span> ጁስ (Juices)
-                </h3>
-            </div>
+            <h3 class="text-2xl font-black text-[#8C2F00] mb-10 flex items-center gap-3 uppercase">
+                <span class="w-2 h-8 bg-[#FF6B00] rounded-full"></span> ጁስ (Juices)
+            </h3>
 
             @php
                 $juices = [
-                    ['name'=>'Avocado','amharic'=>'አቮካዶ','price'=>'150'],
-                    ['name'=>'Papaya','amharic'=>'ፓፓያ','price'=>'150'],
-                    ['name'=>'Spris','amharic'=>'ስፕሪስ','price'=>'150'],
-                    ['name'=>'Ambasha','amharic'=>'አምባሻ','price'=>'150'],
-                    ['name'=>'Zaytun','amharic'=>'ዘይቱን','price'=>'150'],
-                    ['name'=>'Strawberry','amharic'=>'ስትሮበሪ','price'=>'180'],
-                    ['name'=>'Mango','amharic'=>'ማንጎ','price'=>'200'],
-                    ['name'=>'Spris with Mango','amharic'=>'ስፕሪስ በማንጎ','price'=>'170'],
-                    ['name'=>'Pineapple','amharic'=>'አናናስ','price'=>'180'],
-                    ['name'=>'Watermelon','amharic'=>'ሀብሀብ','price'=>'160'],
-                    ['name'=>'Apple','amharic'=>'አፕል','price'=>'240'],
-                    ['name'=>'Orange','amharic'=>'ብርቱካን','price'=>'180'],
-                    ['name'=>'Lemon','amharic'=>'ሎሚ','price'=>'150'],
-                    ['name'=>'Juice Special','amharic'=>'ጁስ ወርልድ ስፔሻል','price'=>'220'],
+                    ['name'=>'Avocado','amharic'=>'አቮካዶ','price'=>'150', 'image'=>'avocado.jpg'],
+                    ['name'=>'Papaya','amharic'=>'ፓፓያ','price'=>'150', 'image'=>'papaya.jpg'],
+                    ['name'=>'Spris','amharic'=>'ስፕሪስ','price'=>'150', 'image'=>'spris.jpg'],
+                    ['name'=>'Ambasha','amharic'=>'አምባሻ','price'=>'150', 'image'=>'ambasha.jpg'],
+                    ['name'=>'Zaytun','amharic'=>'ዘይቱን','price'=>'150', 'image'=>'zaytun.jpg'],
+                    ['name'=>'Strawberry','amharic'=>'ስትሮበሪ','price'=>'180', 'image'=>'strawberry.jpg'],
+                    ['name'=>'Mango','amharic'=>'ማንጎ','price'=>'200', 'image'=>'mango.jpg'],
+                    ['name'=>'Spris with Mango','amharic'=>'ስፕሪስ በማንጎ','price'=>'170', 'image'=>'spris-mango.jpg'],
+                    ['name'=>'Pineapple','amharic'=>'አናናስ','price'=>'180', 'image'=>'pineapple.jpg'],
+                    ['name'=>'Watermelon','amharic'=>'ሀብሀብ','price'=>'160', 'image'=>'watermelon.jpg'],
+                    ['name'=>'Apple','amharic'=>'አፕል','price'=>'240', 'image'=>'apple.jpg'],
+                    ['name'=>'Orange','amharic'=>'ብርቱካን','price'=>'180', 'image'=>'orange.jpg'],
+                    ['name'=>'Lemon','amharic'=>'ሎሚ','price'=>'150', 'image'=>'lemon.jpg'],
+                    ['name'=>'Juice Special','amharic'=>'ጁስ ወርልድ ስፔሻል','price'=>'220', 'image'=>'special.jpg'],
                 ];
             @endphp
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
                 @foreach($juices as $item)
                     <div class="flex flex-col group">
-                        <!-- ምስል + የ (+) በተን -->
-                        <div class="relative w-full aspect-square bg-white rounded-[3rem] mb-6 flex items-center justify-center shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-orange-50/50">
-                            <span class="text-6xl group-hover:scale-110 transition-transform duration-500">🥤</span>
+                        <div class="relative w-full aspect-square bg-white rounded-[3.5rem] mb-6 flex items-center justify-center shadow-sm hover:shadow-2xl transition-all duration-500 border border-orange-50/50">
+                            @if(file_exists(public_path('images/' . $item['image'])))
+                                <img src="{{ asset('images/' . $item['image']) }}" alt="{{ $item['name'] }}" class="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform">
+                            @else
+                                <span class="text-7xl opacity-20">🥤</span>
+                            @endif
 
-                            <!-- የተስተካከለው የ (+) ሊንክ ሎጂክ -->
-                            <a href="{{ auth()->check() ? '/juice/'.$loop->iteration.'/select-branch' : route('register') }}"
-                               class="absolute bottom-4 right-4 w-12 h-12 bg-[#FF6B00] text-white rounded-full flex items-center justify-center shadow-lg hover:bg-[#8C2F00] hover:scale-110 transition-all text-3xl font-light no-underline">
+                            <a href="{{ auth()->check() ? '/juice/'.($loop->index + 1).'/select-branch' : route('register') }}"
+                               class="absolute -bottom-4 -right-2 w-14 h-14 bg-[#FF6B00] text-white rounded-full flex items-center justify-center shadow-xl hover:bg-[#8C2F00] hover:scale-110 transition-all text-4xl font-light no-underline border-4 border-[#FFF8F1]">
                                 +
                             </a>
                         </div>
-
-                        <div class="px-2 text-center">
-                            <h4 class="text-sm font-black text-[#8C2F00] uppercase tracking-wide leading-tight mb-1">{{ $item['name'] }}</h4>
+                        <div class="px-2">
+                            <h4 class="text-sm font-black text-[#8C2F00] uppercase mb-1">{{ $item['name'] }}</h4>
                             <p class="text-[10px] text-gray-400 font-bold italic mb-2">{{ $item['amharic'] }}</p>
                             <span class="text-base font-black text-[#FF6B00]">{{ $item['price'] }} <small class="text-[9px]">ETB</small></span>
                         </div>
@@ -203,40 +192,40 @@
                 @endforeach
             </div>
         </div>
+
         {{-- ========================= MILKSHAKES SECTION ========================= --}}
         <div id="shake-section">
-            <div class="flex justify-between items-center mb-10 border-b border-orange-100 pb-4">
-                <h3 class="text-2xl font-black text-[#8C2F00] flex items-center gap-3">
-                    <span class="w-2 h-8 bg-[#FF6B00] rounded-full"></span> ሚልክ ሼክ (Milkshakes)
-                </h3>
-            </div>
+            <h3 class="text-2xl font-black text-[#8C2F00] mb-10 flex items-center gap-3 uppercase">
+                <span class="w-2 h-8 bg-[#FF6B00] rounded-full"></span> ሚልክ ሼክ (Milkshakes)
+            </h3>
 
             @php
                 $shakes = [
-                    ['name'=>'Avocado Shake','amharic'=>'አቮካዶ ሼክ','price'=>'200'],
-                    ['name'=>'Mango Shake','amharic'=>'ማንጎ ሼክ','price'=>'250'],
-                    ['name'=>'Chocolate Shake','amharic'=>'ቸኮሌት ሼክ','price'=>'220'],
-                    ['name'=>'Strawberry Shake','amharic'=>'ስትሮበሪ ሼክ','price'=>'250'],
-                    ['name'=>'Vanilla Shake','amharic'=>'ቫኒላ ሼክ','price'=>'200'],
+                    ['name'=>'Avocado Shake','amharic'=>'አቮካዶ ሼክ','price'=>'200','image'=>'AvocadoShake.jpg'],
+                    ['name'=>'Mango Shake','amharic'=>'ማንጎ ሼክ','price'=>'250','image'=>'MangoShake.jpg'],
+                    ['name'=>'Chocolate Shake','amharic'=>'ቸኮሌት ሼክ','price'=>'220','image'=>'ChocolateShake.jpg'],
+                    ['name'=>'Strawberry Shake','amharic'=>'ስትሮበሪ ሼክ','price'=>'250','image'=>'StrawberryShake.jpg'],
+                    ['name'=>'Vanilla Shake','amharic'=>'ቫኒላ ሼክ','price'=>'200','image'=>'VanillaShake.jpg'],
                 ];
             @endphp
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
                 @foreach($shakes as $shake)
                     <div class="flex flex-col group">
-                        <div class="relative w-full aspect-square bg-white rounded-[3rem] mb-6 flex items-center justify-center shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-orange-50/50">
-                            <span class="text-6xl group-hover:scale-110 transition-transform duration-500">🥛</span>
+                        <div class="relative w-full aspect-square bg-white rounded-[3.5rem] mb-6 flex items-center justify-center shadow-sm hover:shadow-2xl transition-all duration-500 border border-orange-50/50">
+                            @if(file_exists(public_path('images/' . $shake['image'])))
+                                <img src="{{ asset('images/' . $shake['image']) }}" alt="{{ $shake['name'] }}" class="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform">
+                            @else
+                                <span class="text-7xl opacity-20">🥛</span>
+                            @endif
 
-                            <!-- አዲሱ የ "+" ማዘዣ በተን -->
-                            <!-- አዲሱ የ "+" ሊንክ -->
-                            <!-- በ welcome.blade.php ውስጥ ያለውን የ (+) ሊንክ እንዲህ ቀይረው -->
-                            <a href="{{ auth()->check() ? '/juice/'.$loop->iteration.'/select-branch' : route('register') }}"
-                               class="absolute bottom-4 right-4 w-12 h-12 bg-[#FF6B00] text-white rounded-full flex items-center justify-center shadow-lg hover:bg-[#8C2F00] hover:scale-110 transition-all text-3xl font-light no-underline">
+                            <a href="{{ auth()->check() ? '/juice/'.($loop->index + 1).'/select-branch' : route('register') }}"
+                               class="absolute -bottom-4 -right-2 w-14 h-14 bg-[#FF6B00] text-white rounded-full flex items-center justify-center shadow-xl hover:bg-[#8C2F00] hover:scale-110 transition-all text-4xl font-light no-underline border-4 border-[#FFF8F1]">
                                 +
                             </a>
                         </div>
                         <div class="px-2">
-                            <h4 class="text-sm font-black text-[#8C2F00] uppercase tracking-wide mb-1">{{ $shake['name'] }}</h4>
+                            <h4 class="text-sm font-black text-[#8C2F00] uppercase mb-1">{{ $shake['name'] }}</h4>
                             <p class="text-[10px] text-gray-400 font-bold italic mb-2">{{ $shake['amharic'] }}</p>
                             <span class="text-base font-black text-[#FF6B00]">{{ $shake['price'] }} <small class="text-[9px]">ETB</small></span>
                         </div>
@@ -244,44 +233,24 @@
                 @endforeach
             </div>
         </div>
-
     </div>
 </section>
-
-<!-- Custom Styles -->
-<style>
-    .active-tab {
-        background-color: #8C2F00 !important;
-        color: white !important;
-        box-shadow: 0 20px 25px -5px rgba(140, 47, 0, 0.2);
-    }
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-</style>
 
 <!-- Filter Script -->
 <script>
     function filterMenu(type, btn) {
-        const juiceSection = document.getElementById('juice-section');
-        const shakeSection = document.getElementById('shake-section');
+        const jSection = document.getElementById('juice-section');
+        const sSection = document.getElementById('shake-section');
 
-        if (type === 'all') {
-            juiceSection.style.display = 'block';
-            shakeSection.style.display = 'block';
-        } else if (type === 'juice') {
-            juiceSection.style.display = 'block';
-            shakeSection.style.display = 'none';
-        } else if (type === 'shake') {
-            juiceSection.style.display = 'none';
-            shakeSection.style.display = 'block';
-        }
+        if (type === 'all') { jSection.style.display = 'block'; sSection.style.display = 'block'; }
+        else if (type === 'juice') { jSection.style.display = 'block'; sSection.style.display = 'none'; }
+        else if (type === 'shake') { jSection.style.display = 'none'; sSection.style.display = 'block'; }
 
         document.querySelectorAll('.menu-tab-btn').forEach(b => {
             b.classList.remove('active-tab');
             b.classList.add('bg-white', 'text-[#8C2F00]');
         });
-
         btn.classList.add('active-tab');
-        btn.classList.remove('bg-white', 'text-[#8C2F00]');
     }
 </script>
 <!-- ABOUT US SECTION (Bilingual & Orange Theme) -->
