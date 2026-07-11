@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('juices', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('category'); // ለምድብ (Juice/Milkshake)
+            $table->string('amharic')->nullable(); // ይህንን መስመር ጨምር ***
+            $table->string('category');
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2);
-            $table->string('image')->nullable(); // ለፎቶ
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
