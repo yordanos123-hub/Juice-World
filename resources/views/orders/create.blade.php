@@ -31,22 +31,24 @@
         <input type="hidden" name="branch_id" value="{{ $branch->id }}">
 
         <!-- 1. የክፍያ አማራጭ (First Choice) -->
+        <!-- የክፍያ አማራጭ (Stylish Payment Selection) -->
         <div class="mb-10">
-            <label class="block text-sm font-black text-[#8C2F00] uppercase tracking-widest mb-4 text-center">1. የክፍያ አማራጭ ይምረጡ</label>
+            <label class="block text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mb-6 text-center">3. የክፍያ መንገድ ይምረጡ</label>
             <div class="grid grid-cols-2 gap-4">
-                <label class="relative flex flex-col items-center p-6 border-2 border-orange-50 rounded-3xl cursor-pointer hover:bg-orange-50 transition-all has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50/30 group">
+                <!-- Telebirr -->
+                <label class="relative flex flex-col items-center p-6 border-2 border-gray-100 rounded-[30px] cursor-pointer hover:border-blue-500 hover:bg-blue-50/30 transition-all has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50 shadow-sm group">
                     <input type="radio" name="payment_method" value="telebirr" checked class="hidden">
-                    <div class="text-2xl mb-2">📱</div>
-                    <span class="text-[10px] font-black uppercase text-blue-600">Telebirr</span>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Telebirr_Logo.png/640px-Telebirr_Logo.png" class="h-10 object-contain mb-3 grayscale group-hover:grayscale-0 transition-all" alt="Telebirr">
+                    <span class="text-[9px] font-black uppercase text-gray-400 group-hover:text-blue-600">Pay with Telebirr</span>
                 </label>
-                <label class="relative flex flex-col items-center p-6 border-2 border-orange-50 rounded-3xl cursor-pointer hover:bg-orange-50 transition-all has-[:checked]:border-[#8C2F00] has-[:checked]:bg-orange-50 group">
+                <!-- Chapa / Bank -->
+                <label class="relative flex flex-col items-center p-6 border-2 border-gray-100 rounded-[30px] cursor-pointer hover:border-orange-500 hover:bg-orange-50/30 transition-all has-[:checked]:border-[#FF6B00] has-[:checked]:bg-orange-50 shadow-sm group">
                     <input type="radio" name="payment_method" value="chapa" class="hidden">
-                    <div class="text-2xl mb-2">💳</div>
-                    <span class="text-[10px] font-black uppercase text-[#8C2F00]">Chapa (Bank)</span>
+                    <div class="text-3xl mb-2">💳</div>
+                    <span class="text-[9px] font-black uppercase text-gray-400 group-hover:text-[#8C2F00]">Pay with Bank / Chapa</span>
                 </label>
             </div>
         </div>
-
         <!-- 2. የአቀባበል ሁኔታ (Second Choice) -->
         <div class="mb-10">
             <label class="block text-sm font-black text-[#8C2F00] uppercase tracking-widest mb-4 text-center">2. የጁስ አቀባበል</label>

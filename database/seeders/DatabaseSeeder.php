@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
             ['name'=>'Zaytun Shake','category'=>'Milkshake','price'=>200, 'image'=>'ZaytunShake.jpg'],
             ['name'=>'Ambasha Shake','category'=>'Milkshake','price'=>200, 'image'=>'AmbashaShake.jpg'],
             ['name'=>'Watermelon Shake','category'=>'Milkshake','price'=>210, 'image'=>'WatermelonShake.jpg'],
-            ['name'=>'Banana Shake','category'=>'Milkshake','price'=>200, 'image'=>'BananaShake.jpg'],
+            ['name'=>'Banana Shake','category'=>'Milkshake','price'=>200, 'image'=>'bananaShake.jpg'],
             ['name'=>'Mango Shake','category'=>'Milkshake','price'=>250, 'image'=>'MangoShake.jpg'],
             ['name'=>'Chocolate Shake','category'=>'Milkshake','price'=>220, 'image'=>'ChocolateShake.jpg'],
             ['name'=>'Date Shake','category'=>'Milkshake','price'=>250, 'image'=>'DateShake.jpg'],

@@ -15,6 +15,9 @@ Route::get('/juice/{juice_id}/select-branch', [OrderController::class, 'selectBr
 Route::get('/juice/{juice_id}/branch/{branch_id}/order', [OrderController::class, 'create']);
 Route::post('/order', [OrderController::class, 'store']);
 
+// 🏆 አዲሱ የክፍያ ማረጋገጫ መንገድ (Simulation)
+Route::get('/payment/verify/{id}', [OrderController::class, 'verifyPayment'])->name('payment.verify');
+
 // --- 3. ሎጊን ላደረጉ ተጠቃሚዎች ብቻ (Authenticated) ---
 Route::middleware('auth')->group(function () {
     // ተጠቃሚው የራሱን ትዕዛዞች ታሪክ ለማየት
@@ -33,7 +36,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // የትዕዛዝ መቆጣጠሪያዎች
     Route::get('/admin/orders', [OrderController::class, 'index']); // ዝርዝር ለማየት
     Route::patch('/admin/orders/{id}/status', [OrderController::class, 'updateStatus']); // ትዕዛዝ ለመቀበል
-    Route::patch('/admin/orders/{id}/pay', [OrderController::class, 'markAsPaid']); // ክፍያ ለማረጋገጥ (ይህ ተጨምሯል)
+    Route::patch('/admin/orders/{id}/pay', [OrderController::class, 'markAsPaid']); // ክፍያ በእጅ ለማረጋገጥ
 });
 
 require __DIR__.'/auth.php';

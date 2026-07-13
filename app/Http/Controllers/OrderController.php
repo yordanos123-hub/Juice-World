@@ -12,11 +12,10 @@ use Illuminate\Support\Facades\Mail;
 class OrderController extends Controller
 {
     /**
-     * ትዕዛዝ ሲላክ መረጃዎችን ዳታቤዝ ውስጥ የሚመዘግብ (Customer Side)
+     * ትዕዛዝ ሲላክ መረጃዎችን ዳታቤዝ ውስጥ የሚመዘግብ
      */
     public function store(Request $request)
     {
-        // 1. መሠረታዊ Validation
         $rules = [
             'juice_id' => 'required|exists:juices,id',
             'branch_id' => 'required|exists:branches,id',
@@ -24,7 +23,6 @@ class OrderController extends Controller
             'payment_method' => 'required'
         ];
 
-        // ለዴሊቨሪ ከሆነ ስልክና አድራሻ የግድ ነው
         if ($request->order_type === 'delivery') {
             $rules['phone'] = 'required';
             $rules['address'] = 'required';
@@ -32,8 +30,8 @@ class OrderController extends Controller
 
         $request->validate($rules);
 
-        // 2. ትዕዛዙን መፍጠር
-        Order::create([
+        // 1. ትዕዛዙን መፍጠር
+        $order = Order::create([
             'user_id' => auth()->id() ?? null,
             'juice_id' => $request->juice_id,
             'branch_id' => $request->branch_id,
@@ -42,10 +40,29 @@ class OrderController extends Controller
             'phone' => $request->phone,
             'address' => $request->address,
             'status' => 'Pending',
-            'payment_status' => 'unpaid' // መጀመሪያ ሳይከፈል ይመዘገባል
+            'payment_status' => 'unpaid'
         ]);
 
-        return redirect('/')->with('success', '✅ ትዕዛዝዎ በትክክል ደርሶናል። ስለመረጡን እናመሰግናለን!');
+        // 2. ሎጂክ፦ ክፍያው ዲጂታል (Telebirr/Chapa) ከሆነ ወደ ክፍያ ገጽ ይውሰደው
+        if ($request->payment_method === 'telebirr' || $request->payment_method === 'chapa') {
+            return view('orders.payment_process', compact('order'));
+        }
+
+        // 3. ክፍያው "Cash" ከሆነ ወደ መነሻ ገጽ ይመለሳል
+        return redirect('/')->with('success', '✅ ትዕዛዝዎ ተመዝግቧል። ሲረከቡ ክፍያ ይፈጽማሉ!');
+    }
+
+    /**
+     * ክፍያውን በራስ-ሰር የሚያረጋግጥ (Simulation)
+     */
+    public function verifyPayment($id)
+    {
+        $order = Order::findOrFail($id);
+
+        // ሁኔታውን ወደ ተከፈለ (Paid) መቀየር
+        $order->update(['payment_status' => 'paid']);
+
+        return redirect('/')->with('success', '🎉 ክፍያዎ በባንክ ተረጋግጧል! ስለመረጡን እናመሰግናለን።');
     }
 
     /**
@@ -59,7 +76,7 @@ class OrderController extends Controller
     }
 
     /**
-     * ቅርንጫፍ ከተመረጠ በኋላ ትዕዛዝ መሙያ ፎርም የሚያሳይ
+     * ትዕዛዝ መሙያ ፎርም
      */
     public function create($juice_id, $branch_id)
     {
@@ -69,20 +86,7 @@ class OrderController extends Controller
     }
 
     /**
-     * አንድ ተራ ደንበኛ የራሱን ትዕዛዞች ብቻ የሚያይበት (Customer Side)
-     */
-    public function userOrders()
-    {
-        $orders = Order::where('user_id', auth()->id())
-            ->with(['juice', 'branch'])
-            ->latest()
-            ->get();
-
-        return view('orders.user_orders', compact('orders'));
-    }
-
-    /**
-     * ሁሉንም ትዕዛዞች ለአድሚን የሚያሳይ (Admin Dashboard)
+     * የአድሚን ትዕዛዞች ዝርዝር
      */
     public function index()
     {
@@ -91,7 +95,7 @@ class OrderController extends Controller
     }
 
     /**
-     * አድሚኑ ክፍያ መፈጸሙን ሲያረጋግጥ (Payment Status)
+     * አድሚኑ ክፍያውን በእጁ ማረጋገጥ ሲፈልግ (Manual Verification)
      */
     public function markAsPaid($id)
     {
@@ -101,13 +105,12 @@ class OrderController extends Controller
     }
 
     /**
-     * አድሚኑ ትዕዛዝ ተቀብሎ ሁኔታውን የሚቀይርበት እና ኢሜይል የሚልክበት
+     * አድሚኑ ትዕዛዝ ተቀብሎ ለደንበኛው ኢሜይል የሚልክበት
      */
     public function updateStatus($id)
     {
         $order = Order::findOrFail($id);
 
-        // 🔴 መከላከያ፦ ክፍያ ሳይፈጸም Accept ለማድረግ ቢሞከር ይከለክላል
         if ($order->payment_status !== 'paid') {
             return back()->with('error', 'ትዕዛዙን ለመቀበል መጀመሪያ ክፍያ መፈጸሙን ማረጋገጥ አለብዎት!');
         }
@@ -119,5 +122,18 @@ class OrderController extends Controller
         }
 
         return back()->with('success', 'ትዕዛዙ ተቀባይነት አግኝቷል!');
+    }
+
+    /**
+     * ደንበኛው የራሱን ታሪክ የሚያይበት
+     */
+    public function userOrders()
+    {
+        $orders = Order::where('user_id', auth()->id())
+            ->with(['juice', 'branch'])
+            ->latest()
+            ->get();
+
+        return view('orders.user_orders', compact('orders'));
     }
 }
